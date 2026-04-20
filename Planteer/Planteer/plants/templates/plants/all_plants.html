@@ -1,0 +1,52 @@
+{% extends 'main/base.html' %}
+
+{% block title %}All Plants | Planteer{% endblock %}
+
+{% block content %}
+<section class="page-banner banner-green">
+    <div class="container">
+        <span class="mini-tag">Plant Store</span>
+        <h1>All Plants</h1>
+        <p>Browse plants by category and edible status.</p>
+    </div>
+</section>
+
+<section class="container section-space">
+    <form method="GET" class="filter-bar">
+        <select name="category">
+            <option value="">All Categories</option>
+            {% for value, label in categories %}
+                <option value="{{ value }}" {% if request.GET.category == value %}selected{% endif %}>
+                    {{ label }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <select name="is_edible">
+            <option value="">All</option>
+            <option value="true" {% if request.GET.is_edible == 'true' %}selected{% endif %}>Edible</option>
+            <option value="false" {% if request.GET.is_edible == 'false' %}selected{% endif %}>Not Edible</option>
+        </select>
+
+        <button type="submit">Filter</button>
+    </form>
+
+    <div class="plant-grid">
+        {% for plant in plants %}
+            <article class="plant-card">
+                <a href="{% url 'plants:plant_detail' plant.id %}" class="plant-card-image">
+                    <img src="{{ plant.image.url }}" alt="{{ plant.name }}">
+                </a>
+                <div class="plant-card-body">
+                    <span class="plant-category">{{ plant.category }}</span>
+                    <h3>{{ plant.name }}</h3>
+                    <p>{{ plant.about|truncatewords:12 }}</p>
+                    <a href="{% url 'plants:plant_detail' plant.id %}" class="card-link">View Details</a>
+                </div>
+            </article>
+        {% empty %}
+            <p>No plants found.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

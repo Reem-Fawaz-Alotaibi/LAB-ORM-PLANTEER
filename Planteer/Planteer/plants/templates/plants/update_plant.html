@@ -1,0 +1,23 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Update Plant | Planteer{% endblock %}
+
+{% block content %}
+<section class="page-banner banner-yellow">
+    <div class="container">
+        <span class="mini-tag">Edit</span>
+        <h1>Update Plant</h1>
+        <p>Edit the plant information beautifully and clearly.</p>
+    </div>
+</section>
+
+<section class="container form-section-wrap">
+    <div class="form-card">
+        <form method="POST" enctype="multipart/form-data" class="site-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="primary-btn form-btn">Update Plant</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

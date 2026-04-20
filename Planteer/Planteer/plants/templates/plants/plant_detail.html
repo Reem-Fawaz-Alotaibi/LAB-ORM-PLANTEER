@@ -1,0 +1,65 @@
+{% extends 'main/base.html' %}
+
+{% block title %}{{ plant.name }} | Planteer{% endblock %}
+
+{% block content %}
+<section class="container section-space">
+    <div class="detail-layout">
+        <div class="detail-image">
+            <img src="{{ plant.image.url }}" alt="{{ plant.name }}">
+        </div>
+
+        <div class="detail-info">
+            <span class="mini-tag">{{ plant.category }}</span>
+            <h1>{{ plant.name }}</h1>
+
+            <div class="detail-meta">
+                <p><strong>Category:</strong> {{ plant.category }}</p>
+                <p><strong>Is Edible:</strong> {{ plant.is_edible|yesno:"Yes,No" }}</p>
+            </div>
+
+            <div class="detail-text-block">
+                <h3>About</h3>
+                <p>{{ plant.about }}</p>
+            </div>
+
+            <div class="detail-text-block">
+                <h3>Used For</h3>
+                <p>{{ plant.used_for }}</p>
+            </div>
+
+            <div class="action-row">
+                <a href="{% url 'plants:update_plant' plant.id %}" class="secondary-btn">Update</a>
+                <a href="{% url 'plants:delete_plant' plant.id %}" class="danger-btn">Delete</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="container section-space related-wrapper">
+    <div class="section-header">
+        <div>
+            <span class="mini-tag">Related</span>
+            <h2>Related Plants</h2>
+        </div>
+    </div>
+
+    <div class="plant-grid">
+        {% for related in related_plants %}
+        <article class="plant-card">
+            <a href="{% url 'plants:plant_detail' related.id %}" class="plant-card-image">
+                <img src="{{ related.image.url }}" alt="{{ related.name }}">
+            </a>
+            <div class="plant-card-body">
+                <span class="plant-category">{{ related.category }}</span>
+                <h3>{{ related.name }}</h3>
+                <p>{{ related.about|truncatewords:10 }}</p>
+                <a href="{% url 'plants:plant_detail' related.id %}" class="card-link">View Details</a>
+            </div>
+        </article>
+        {% empty %}
+        <p>No related plants found.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Add Plant | Planteer{% endblock %}
+
+{% block content %}
+<section class="page-banner banner-yellow">
+    <div class="container">
+        <span class="mini-tag">Create</span>
+        <h1>Add New Plant</h1>
+        <p>Add a new plant to your lively collection.</p>
+    </div>
+</section>
+
+<section class="container form-section-wrap">
+    <div class="form-card">
+        <form method="POST" enctype="multipart/form-data" class="site-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="primary-btn form-btn">Add Plant</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

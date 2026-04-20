@@ -1,0 +1,25 @@
+{% extends 'main/base.html' %}
+{% block title %}Messages | Planteer{% endblock %}
+{% block content %}
+<section class="page-banner banner-green">
+    <div class="container">
+        <span class="mini-tag">Messages</span>
+        <h1>Messages from Users</h1>
+        <p>View all contact submissions in a clean layout.</p>
+    </div>
+</section>
+<section class="container section-space">
+    <div class="message-grid">
+        {% for message in messages %}
+        <article class="message-card">
+            <h3>{{ message.first_name }} {{ message.last_name }}</h3>
+            <a href="mailto:{{ message.email }}" class="message-email">{{ message.email }}</a>
+            <p>{{ message.message }}</p>
+            <small>{{ message.created_at }}</small>
+        </article>
+        {% empty %}
+        <p>No messages yet.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
