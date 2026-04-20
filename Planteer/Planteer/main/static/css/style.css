@@ -254,17 +254,17 @@ textarea {
 .section-link {
     color: var(--green-5);
     font-weight: 800;
+    margin-bottom: 6px;
+
 }
 
 .filter-bar input,
 .filter-bar select,
 .site-form input,
-.site-form textarea,
 .site-form select {
     width: 100%;
     padding: 14px 18px;
     border: 1px solid #dde3d4;
-    border-radius: 999px;
     background: rgba(255, 255, 255, 0.92);
     outline: none;
 }
@@ -382,7 +382,6 @@ textarea {
 }
 
 .plant-card,
-.message-card,
 .form-card,
 .delete-card,
 .contact-form-card,
@@ -521,7 +520,6 @@ textarea {
 }
 
 .site-form input,
-.site-form textarea,
 .site-form select {
     border-radius: 18px;
     padding: 14px 16px;
@@ -531,6 +529,11 @@ textarea {
 .site-form textarea {
     min-height: 140px;
     resize: vertical;
+    border: 1px solid #dde3d4;
+    padding: 14px 16px;
+    background: #fffef9;
+    width: 100%;
+    outline: none;
     border-radius: 20px;
 }
 
@@ -563,6 +566,8 @@ textarea {
     gap: 12px;
     flex-wrap: wrap;
 }
+
+
 
 .contact-layout {
     display: grid;
@@ -599,17 +604,24 @@ textarea {
 
 .message-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 22px;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 16px;
+    align-items: stretch;
 }
 
 .message-card {
-    padding: 24px;
-    background: linear-gradient(180deg, #fffef8, #f8f4ea);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border: 1px solid #ddd8ca;
+    border-radius: 24px;
+    background: #fffef9;
 }
 
 .message-card h3 {
-    margin-bottom: 8px;
+    margin-bottom: 10px;
+    font-size: 1.3rem;
 }
 
 .message-email {
@@ -621,9 +633,31 @@ textarea {
 
 .message-card p {
     color: #6b7567;
-    margin-bottom: 12px;
+    margin: 0;
+    line-height: 1.7;
+    font-size: 0.95rem;
 }
 
+.review-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    align-items: stretch;
+}
+
+.review-form-box,
+.review-comments-box {
+    background: rgba(255, 255, 255, 0.88);
+    border-radius: 24px;
+    padding: 28px;
+    border: 1px solid #e7e4d8;
+    box-shadow: var(--shadow);
+    height: 100%;
+}
+
+.review-comments-box .message-grid {
+    margin-top: 10px;
+}
 
 @media (max-width: 1100px) {
     .footer-container {
@@ -674,12 +708,15 @@ textarea {
     .nav-links.show {
         display: flex;
     }
+
+    .review-layout {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 800px) {
 
-    .plant-grid,
-    .message-grid {
+    .plant-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 

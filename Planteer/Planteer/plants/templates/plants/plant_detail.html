@@ -36,6 +36,38 @@
     </div>
 </section>
 
+<section class="container section-space">
+    <div class="review-layout">
+
+        <div class="review-form-box">
+            <span class="mini-tag">Add Commint</span>
+            <h2>Write a Commint</h2>
+            <form method="POST" action="{% url 'plants:add_commint_view' plant.id %}" class="site-form">
+                {% csrf_token %}
+                <p><input type="text" name="name" placeholder="Your name" required></p>
+                <p><textarea name="comment" placeholder="Write your comment..." required></textarea></p>
+                <button type="submit" class="primary-btn">Submit</button>
+            </form>
+        </div>
+
+        <div class="review-comments-box">
+            <span class="mini-tag">Commints</span>
+            <h2>All Commints</h2>
+            <div class="message-grid">
+                {% for c in comments %}
+                <div class="message-card">
+                    <h3>{{ c.name }}</h3>
+                    <p>{{ c.comment }}</p>
+                </div>
+                {% empty %}
+                <p>No reviews yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+</section>
+
 <section class="container section-space related-wrapper">
     <div class="section-header">
         <div>
