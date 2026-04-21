@@ -1,15 +1,17 @@
 
 from django.shortcuts import render, redirect, get_object_or_404 
 from django.http import HttpRequest,HttpResponse
-from .models import Plant,Commint
+from .models import Plant,Commint,Country
 from .forms import PlantForm
 
 
 def all_plants_view(request):
     plants = Plant.objects.all().order_by('-created_at')
+    countries = Country.objects.all()
 
     category = request.GET.get('category')
     is_edible = request.GET.get('is_edible')
+    country = request.GET.get('country')
 
     if category:
         plants = plants.filter(category=category)
@@ -19,9 +21,15 @@ def all_plants_view(request):
     elif is_edible == 'false':
         plants = plants.filter(is_edible=False)
 
+    if country:
+        plants = plants.filter(countries__id=country)
+
     return render(request, 'plants/all_plants.html', {
         'plants': plants,
-        'categories': Plant.Category.choices
+        'categories': Plant.Category.choices,
+        'countries': countries
+
+
     })
 
 
@@ -102,17 +110,3 @@ def add_commint_view(request: HttpRequest, plant_id):
 
     return redirect('plants:plant_detail', plant_id=plant.id)
 
-def plant_detail_view(request, plant_id):
-    plant = get_object_or_404(Plant, id=plant_id)
-
-    related_plants = Plant.objects.filter(
-        category=plant.category
-    ).exclude(id=plant.id)[:3]
-
-    comments = Commint.objects.filter(plant=plant)
-
-    return render(request, 'plants/plant_detail.html', {
-        'plant': plant,
-        'related_plants': related_plants,
-        'comments': comments
-    })

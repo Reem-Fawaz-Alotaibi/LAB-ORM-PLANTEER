@@ -13,6 +13,15 @@
             <span class="mini-tag">{{ plant.category }}</span>
             <h1>{{ plant.name }}</h1>
 
+            <h4>Native Countries:</h4>
+            {% for country in plant.countries.all %}
+            {% if country.flag %}
+            <img src="{{ country.flag.url }}" width="30">
+            {% endif %}
+            {{ country.name }}<br>
+            {% endfor %}
+
+
             <div class="detail-meta">
                 <p><strong>Category:</strong> {{ plant.category }}</p>
                 <p><strong>Is Edible:</strong> {{ plant.is_edible|yesno:"Yes,No" }}</p>
