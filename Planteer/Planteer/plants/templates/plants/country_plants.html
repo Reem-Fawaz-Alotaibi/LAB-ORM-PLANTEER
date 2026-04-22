@@ -1,0 +1,21 @@
+{% extends 'main/base.html' %}
+
+{% block title %}{{ country.name }} Plants | Planteer{% endblock %}
+
+{% block content %}
+<section class="page-banner banner-green">
+    <div class="container">
+        <span class="mini-tag">Country</span>
+        <h1>Plants Native to {{ country.name }}</h1>
+        <p>Explore all plants related to this country.</p>
+    </div>
+</section>
+
+<section class="container section-space">
+    <div class="plant-grid">
+        {% for plant in plants %}
+        {% include 'plants/includes/plant_card.html' %}
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

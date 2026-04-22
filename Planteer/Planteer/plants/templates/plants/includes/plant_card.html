@@ -1,0 +1,15 @@
+<article class="plant-card">
+    <a href="{% url 'plants:plant_detail' plant.id %}" class="plant-card-image">
+        <img src="{{ plant.image.url }}" alt="{{ plant.name }}">
+    </a>
+
+    <div class="plant-card-body">
+        <span class="plant-category">{{ plant.category }}</span>
+        <h3>{{ plant.name }}</h3>
+        <p>{{ plant.about|truncatewords:10 }}</p>
+
+        <a href="{% url 'plants:plant_detail' plant.id %}">
+            View Details
+        </a>
+    </div>
+</article>

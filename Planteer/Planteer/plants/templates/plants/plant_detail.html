@@ -14,12 +14,16 @@
             <h1>{{ plant.name }}</h1>
 
             <h4>Native Countries:</h4>
-            {% for country in plant.countries.all %}
-            {% if country.flag %}
-            <img src="{{ country.flag.url }}" width="30">
-            {% endif %}
-            {{ country.name }}<br>
-            {% endfor %}
+            <div class="country-list">
+                {% for country in plant.countries.all %}
+                <a href="{% url 'plants:country_plants' country.id %}" class="country-link">
+                    {% if country.flag %}
+                    <img src="{{ country.flag.url }}" alt="{{ country.name }}">
+                    {% endif %}
+                    <span>{{ country.name }}</span>
+                </a>
+                {% endfor %}
+            </div>
 
 
             <div class="detail-meta">

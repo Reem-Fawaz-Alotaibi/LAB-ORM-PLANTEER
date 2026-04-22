@@ -7,7 +7,7 @@
     <div class="container">
         <span class="mini-tag">Plant Store</span>
         <h1>All Plants</h1>
-        <p>Browse plants by category and edible status.</p>
+        <p>Browse plants by category and edible status and country .</p>
     </div>
 </section>
 
@@ -42,19 +42,7 @@
 
     <div class="plant-grid">
         {% for plant in plants %}
-        <article class="plant-card">
-            <a href="{% url 'plants:plant_detail' plant.id %}" class="plant-card-image">
-                <img src="{{ plant.image.url }}" alt="{{ plant.name }}">
-            </a>
-            <div class="plant-card-body">
-                <span class="plant-category">{{ plant.category }}</span>
-                <h3>{{ plant.name }}</h3>
-                <p>{{ plant.about|truncatewords:12 }}</p>
-                <a href="{% url 'plants:plant_detail' plant.id %}" class="card-link">View Details</a>
-            </div>
-        </article>
-        {% empty %}
-        <p>No plants found.</p>
+        {% include 'plants/includes/plant_card.html' %}
         {% endfor %}
     </div>
 </section>

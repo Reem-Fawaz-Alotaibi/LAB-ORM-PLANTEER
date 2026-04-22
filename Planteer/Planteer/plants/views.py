@@ -110,3 +110,12 @@ def add_commint_view(request: HttpRequest, plant_id):
 
     return redirect('plants:plant_detail', plant_id=plant.id)
 
+def country_plants_view(request, country_id):
+    country = get_object_or_404(Country, id=country_id)
+    plants = Plant.objects.filter(countries=country).distinct()
+
+    context = {
+        'country': country,
+        'plants': plants,
+    }
+    return render(request, 'plants/country_plants.html', context)

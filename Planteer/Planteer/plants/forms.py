@@ -5,7 +5,7 @@ from .models import Plant
 class PlantForm(forms.ModelForm):
     class Meta:
         model = Plant
-        fields = ['name', 'about', 'used_for', 'image', 'category', 'is_edible', 'countries']
+        fields = ['name', 'about', 'used_for', 'image', 'category', 'is_edible']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Plant name', 'minlength': '2', 'required': True}),
             'about': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'About plant', 'rows': 4, 'required': True}),
