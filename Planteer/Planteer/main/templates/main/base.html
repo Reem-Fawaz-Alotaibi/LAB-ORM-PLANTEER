@@ -29,6 +29,17 @@
         </div>
     </header>
 
+    {% if messages %}
+    <div class="alert-wrapper">
+        {% for message in messages %}
+        <div class="custom-alert success">
+            {{ message }}
+            <button onclick="this.parentElement.style.display='none'">×</button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
     <main>
         {% block content %}{% endblock %}
     </main>
