@@ -1,14 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
-            const menuBtn = document.getElementById("menuBtn");
-            const navLinks = document.getElementById("navLinks");
+    const menuBtn = document.getElementById("menuBtn");
+    const navLinks = document.getElementById("navLinks");
 
-            menuBtn.addEventListener("click", function () {
-                navLinks.classList.toggle("show");
-
-                if (menuBtn.textContent === "☰") {
-                    menuBtn.textContent = "✖";
-                } else {
-                    menuBtn.textContent = "☰";
-                }
-            });
-        });
+    menuBtn.addEventListener("click", function () {
+        navLinks.classList.toggle("show");
+    });
+});

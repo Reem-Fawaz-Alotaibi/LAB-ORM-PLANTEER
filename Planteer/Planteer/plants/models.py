@@ -1,5 +1,7 @@
 from django.db import models
 from django.core.validators import MinLengthValidator
+from django.contrib.auth.models import User
+
 
 class Country(models.Model):
     name = models.CharField(max_length=100)
@@ -36,12 +38,12 @@ class Plant(models.Model):
         return self.name
     
 
-class Commint(models.Model):
+class Comment(models.Model):
     plant=models.ForeignKey(Plant,on_delete=models.CASCADE)
-    name = models.CharField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     comment=models.TextField()
     created_at=models.DateTimeField(auto_now_add=True)
 
     
     def __str__(self)->str:
-        return f"{self.name} on {self.plant.name}"
+            return f"{self.user.username} on {self.plant.name}"

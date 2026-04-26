@@ -1,9 +1,9 @@
 
 from django.shortcuts import render, redirect, get_object_or_404 
 from django.http import HttpRequest,HttpResponse
-from .models import Plant,Commint,Country
+from .models import Plant,Comment,Country
 from .forms import PlantForm
-
+from django.contrib import messages
 
 def all_plants_view(request):
     plants = Plant.objects.all().order_by('-created_at')
@@ -28,25 +28,26 @@ def all_plants_view(request):
         'plants': plants,
         'categories': Plant.Category.choices,
         'countries': countries
-
-
     })
 
 
 def plant_detail_view(request, plant_id):
     plant = get_object_or_404(Plant, id=plant_id)
-
-    related_plants = Plant.objects.filter(
-        category=plant.category
-    ).exclude(id=plant.id)[:3]
+    comments = Comment.objects.filter(plant=plant).order_by("-created_at")
+    related_plants = Plant.objects.filter(category=plant.category).exclude(id=plant.id)[:3]
 
     return render(request, 'plants/plant_detail.html', {
         'plant': plant,
+        'comments': comments,
         'related_plants': related_plants
     })
 
 
 def new_plant_view(request):
+    if not request.user.is_staff:
+        messages.warning(request, "only staff can add game", "alert-warning")
+        return redirect("main:home")
+
     if request.method == 'POST':
         form = PlantForm(request.POST, request.FILES)
         if form.is_valid():
@@ -59,6 +60,10 @@ def new_plant_view(request):
 
 
 def update_plant_view(request, plant_id):
+    if not request.user.is_staff:
+      messages.warning(request, "only staff can add game", "alert-warning")
+      return redirect("main:home")
+   
     plant = get_object_or_404(Plant, id=plant_id)
 
     if request.method == 'POST':
@@ -76,6 +81,10 @@ def update_plant_view(request, plant_id):
 
 
 def delete_plant_view(request, plant_id):
+    if not request.user.is_staff:
+      messages.warning(request, "only staff can add game", "alert-warning")
+      return redirect("main:home")
+
     plant = get_object_or_404(Plant, id=plant_id)
 
     if request.method == 'POST':
@@ -97,23 +106,26 @@ def search_plants_view(request):
         'query': query
     })
 
-def add_commint_view(request: HttpRequest, plant_id):
-    plant = get_object_or_404(Plant, pk=plant_id)
 
-    if request.method == 'POST':
-        new_commint = Commint(
-            plant=plant,
-            name=request.POST["name"],
+def add_comment_view(request: HttpRequest, plant_id):
+    if not request.user.is_authenticated:
+        messages.error(request, "Only registered user can add comment", "alert-danger")
+        return redirect("accounts:sign_in")
+
+    if request.method == "POST":
+        plant_object = Plant.objects.get(pk=plant_id)
+        new_comment = Comment(
+            plant=plant_object,
+            user=request.user,
             comment=request.POST["comment"]
         )
-        new_commint.save()
-
-    return redirect('plants:plant_detail', plant_id=plant.id)
+        new_comment.save()
+        messages.success(request, "Added Comment Successfully", "alert-success")
+    return redirect("plants:plant_detail", plant_id=plant_id)
 
 def country_plants_view(request, country_id):
     country = get_object_or_404(Country, id=country_id)
     plants = Plant.objects.filter(countries=country).distinct()
-
     context = {
         'country': country,
         'plants': plants,
