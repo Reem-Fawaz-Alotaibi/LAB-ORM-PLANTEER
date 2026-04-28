@@ -1384,3 +1384,39 @@ textarea {
     margin-top: 4px;
     display: block;
 }
+
+.error-box {
+    background: #fff5f5;
+    border: 1px solid #f5c2c7;
+    color: #d93025;
+    padding: 10px 14px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper input {
+    width: 100%;
+    padding-right: 45px;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: #355b36;
+}
+
+.toggle-password:hover {
+    color: #dc1f0d;
+}

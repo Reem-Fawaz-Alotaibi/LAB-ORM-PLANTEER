@@ -38,20 +38,29 @@ def sign_up(request: HttpRequest):
     return render(request, "accounts/signup.html", {"form": form})
 
 
-def sign_in(request:HttpRequest):
+def sign_in(request: HttpRequest):
+    errors = {}
+    username = ""
+
     if request.method == "POST":
         username = request.POST.get("username", "").strip()
         password = request.POST.get("password", "").strip()
 
-        user = authenticate(request, username=username, password=password)
-
-        if user:
-            login(request, user)
-            messages.success(request, "Logged in successfully")
-            return redirect(request.GET.get("next", "/"))
+        if not username or not password:
+            errors["login"] = "Please fill in all fields."
         else:
-            messages.error(request, "Invalid username or password")
-    return render(request, "accounts/signin.html")
+            user = authenticate(request, username=username, password=password)
+
+            if user:
+                login(request, user)
+                return redirect(request.GET.get("next", "/"))
+
+            errors["login"] = "Invalid username or password"
+
+    return render(request, "accounts/signin.html", {
+        "errors": errors,
+        "username": username
+    })
 
 
 def log_out(request: HttpRequest):
