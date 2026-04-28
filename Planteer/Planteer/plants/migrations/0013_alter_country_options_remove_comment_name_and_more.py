@@ -17,10 +17,6 @@ class Migration(migrations.Migration):
             name='country',
             options={'verbose_name_plural': 'Countries'},
         ),
-        migrations.RemoveField(
-            model_name='comment',
-            name='name',
-        ),
         migrations.AddField(
             model_name='comment',
             name='user',

@@ -1,0 +1,127 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block title %}Profile for {{ user.username }}{% endblock %}
+
+{% block content %}
+
+<section class="profile-section">
+    <div class="container">
+
+        <div class="profile-card">
+
+            <div class="profile-left">
+                <div class="profile-avatar-wrap">
+                    {% if user.profile.avatar %}
+                    <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}" class="profile-avatar">
+                    {% else %}
+                    <img src="{% static 'images/avatars/avatar.png' %}" alt="{{ user.username }}" class="profile-avatar">
+                    {% endif %}
+                </div>
+
+                <h2 class="profile-username">@{{ user.username }}</h2>
+
+                {% if request.user == user %}
+                <a href="{% url 'accounts:update_user_profile' %}" class="profile-edit-btn">
+                    Edit Profile
+                </a>
+                {% endif %}
+            </div>
+
+            <div class="profile-right">
+
+                <div class="profile-info">
+                    {% if user.first_name or user.last_name %}
+                    <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+                    {% else %}
+                    <h1>{{ user.username }}</h1>
+                    {% endif %}
+
+                    <p class="profile-email">{{ user.email }}</p>
+                </div>
+
+                <div class="profile-divider"></div>
+
+                <div class="about-box">
+                    <h3>About</h3>
+
+                    {% if user.profile.about %}
+                    <p>{{ user.profile.about }}</p>
+                    {% else %}
+                    <p class="empty-text">No about information yet.</p>
+                    {% endif %}
+                </div>
+
+                <div class="profile-divider"></div>
+
+                <div class="comments-area">
+                    <h3 class="comments-title">
+                        {{ user.first_name|default:user.username }} Comments
+                    </h3>
+
+                    {% if comments %}
+                    <div class="comments-list">
+                        {% for comment in comments %}
+                        <div class="comment-card">
+                            <h4 class="comment-user">
+                                {% if comment.user.first_name or comment.user.last_name %}
+                                {{ comment.user.first_name }} {{ comment.user.last_name }}
+                                {% else %}
+                                {{ comment.user.username }}
+                                {% endif %}
+                            </h4>
+
+                            <p class="comment-text">{{ comment.comment }}</p>
+
+                            <p class="comment-plant">
+                                On Plant:
+                                <a href="{% url 'plants:plant_detail' comment.plant.id %}">
+                                    {{ comment.plant.name }}
+                                </a>
+                            </p>
+
+                            <p class="comment-date">
+                                {{ comment.created_at|date:"M. d, Y, h:i a" }}
+                            </p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p class="empty-text">No comments yet</p>
+                    {% endif %}
+                </div>
+
+                {% if request.user == user %}
+                <div class="profile-divider"></div>
+
+                <div class="bookmarks-area">
+                    <h3 class="comments-title">Bookmarks</h3>
+
+                    <div class="plant-grid">
+                        {% for bookmark in request.user.bookmark_set.all %}
+                        <article class="plant-card">
+                            <a href="{% url 'plants:plant_detail' bookmark.plant.id %}" class="plant-card-image">
+                                <img src="{{ bookmark.plant.image.url }}" alt="{{ bookmark.plant.name }}">
+                            </a>
+
+                            <div class="plant-card-body">
+                                <h3>{{ bookmark.plant.name }}</h3>
+                                <a href="{% url 'plants:plant_detail' bookmark.plant.id %}" class="card-link">
+                                    View Details
+                                </a>
+                            </div>
+                        </article>
+                        {% empty %}
+                        <p class="empty-text">No bookmarks yet</p>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

@@ -12,4 +12,5 @@ urlpatterns = [
     path('<int:plant_id>/delete/', views.delete_plant_view, name='delete_plant'),
     path('<int:plant_id>/comment/', views.add_comment_view, name='add_comment_view'),
     path('country/<int:country_id>/', views.country_plants_view, name='country_plants'),
+    path('bookmark/<int:plant_id>/', views.bookmark_view, name='bookmark'),
 ]

@@ -1,9 +1,10 @@
 
 from django.shortcuts import render, redirect, get_object_or_404 
-from django.http import HttpRequest,HttpResponse
+from django.http import HttpRequest
 from .models import Plant,Comment,Country
 from .forms import PlantForm
 from django.contrib import messages
+from accounts.models import Bookmark
 
 def all_plants_view(request):
     plants = Plant.objects.all().order_by('-created_at')
@@ -36,10 +37,20 @@ def plant_detail_view(request, plant_id):
     comments = Comment.objects.filter(plant=plant).order_by("-created_at")
     related_plants = Plant.objects.filter(category=plant.category).exclude(id=plant.id)[:3]
 
+    is_bookmarked = False
+
+    if request.user.is_authenticated:
+        is_bookmarked = Bookmark.objects.filter(
+            user=request.user,
+            plant=plant
+        ).exists()
+
     return render(request, 'plants/plant_detail.html', {
         'plant': plant,
         'comments': comments,
-        'related_plants': related_plants
+        'related_plants': related_plants,
+        'is_bookmarked': is_bookmarked,
+
     })
 
 
@@ -109,7 +120,7 @@ def search_plants_view(request):
 
 def add_comment_view(request: HttpRequest, plant_id):
     if not request.user.is_authenticated:
-        messages.error(request, "Only registered user can add comment", "alert-danger")
+        messages.error(request, "Only registered user can add comment")
         return redirect("accounts:sign_in")
 
     if request.method == "POST":
@@ -123,6 +134,7 @@ def add_comment_view(request: HttpRequest, plant_id):
         messages.success(request, "Added Comment Successfully", "alert-success")
     return redirect("plants:plant_detail", plant_id=plant_id)
 
+
 def country_plants_view(request, country_id):
     country = get_object_or_404(Country, id=country_id)
     plants = Plant.objects.filter(countries=country).distinct()
@@ -131,3 +143,26 @@ def country_plants_view(request, country_id):
         'plants': plants,
     }
     return render(request, 'plants/country_plants.html', context)
+
+
+def bookmark_view(request: HttpRequest, plant_id):
+    if not request.user.is_authenticated:
+        messages.error(request, "Only registered users can add bookmarks")
+        return redirect("accounts:sign_in")
+    try:
+        plant = Plant.objects.get(pk=plant_id)
+
+        bookmark = Bookmark.objects.filter(plant=plant, user=request.user).first()
+
+        if not bookmark:
+            Bookmark.objects.create(user=request.user, plant=plant)
+            messages.success(request, "Bookmark added")
+        else:
+            bookmark.delete()
+            messages.warning(request, "Bookmark removed")
+
+    except Exception as e:
+        print(e)
+        messages.error(request, "Something went wrong")
+
+    return redirect("plants:plant_detail", plant_id=plant_id)
