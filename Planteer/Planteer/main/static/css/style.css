@@ -1354,3 +1354,33 @@ textarea {
     background: #eef3e5;
     color: #244d2d;
 }
+
+.auth-field textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 14px 16px;
+    border: 1px solid #dde3d4;
+    border-radius: 16px;
+    background: #fffef9;
+    outline: none;
+    resize: vertical;
+}
+
+.auth-field input.input-error,
+.auth-field textarea.input-error {
+    border: 2px solid #d93025 !important;
+    background: #fff5f5 !important;
+}
+
+.auth-field input.input-error:focus,
+.auth-field textarea.input-error:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(217, 48, 37, 0.15);
+}
+
+.error-text {
+    color: #d93025;
+    font-size: 0.85rem;
+    margin-top: 4px;
+    display: block;
+}
