@@ -40,7 +40,7 @@
                         <span>Welcome {{ request.user.username }}</span>
                     </button>
 
-                    <ul class="dropdown-menu dropdown-menu-end">
+                    <ul class="dropdown-menu dropdown-menu">
                         <li><a class="dropdown-item" href="{% url 'accounts:user_profile_view' request.user.username %}">Profile</a></li>
                         <li><a class="dropdown-item" href="{% url 'accounts:log_out' %}">Log out</a></li>
                     </ul>

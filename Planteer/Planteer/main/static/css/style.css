@@ -1137,6 +1137,22 @@ textarea {
         display: flex;
     }
 
+    .nav-links .dropdown {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .nav-links .dropdown-menu {
+        position: static !important;
+        transform: none !important;
+        inset: auto !important;
+        margin: 14px auto 0 !important;
+        width: 140px;
+        text-align: center;
+    }
+
     .review-layout {
         grid-template-columns: 1fr;
     }
@@ -1155,8 +1171,8 @@ textarea {
         width: 160px;
         min-width: 160px;
         padding: 8px;
-        border: 1px solid #dfe7d6;
-        border-radius: 14px;
+        border: 2px solid #dfe7d6;
+        border-radius: 990px;
         box-shadow: var(--shadow);
         text-align: center;
     }
@@ -1314,4 +1330,27 @@ textarea {
     .comment-card {
         padding: 18px;
     }
+}
+
+.dropdown-menu {
+    border: 1px solid #dfe7d6;
+    border-radius: 18px;
+    padding: 10px;
+    min-width: 180px;
+    background: #fffef9;
+    box-shadow: 0 14px 32px rgba(44, 60, 40, 0.12);
+    margin-top: 5px !important;
+}
+
+.dropdown-item {
+    color: #355b36;
+    font-weight: 700;
+    border-radius: 12px;
+    padding: 10px 14px;
+    transition: 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background: #eef3e5;
+    color: #244d2d;
 }
