@@ -39,6 +39,23 @@
                     <p class="profile-email">{{ user.email }}</p>
                 </div>
 
+                <div class="profile-stats">
+                    <div>
+                        <strong>{{ comments_count }}</strong>
+                        <span>Comments</span>
+                    </div>
+
+                    <div>
+                        <strong>{{ bookmarks_count }}</strong>
+                        <span>Bookmarks</span>
+                    </div>
+
+                    <div>
+                        <strong>{{ user.date_joined|date:"M d, Y" }}</strong>
+                        <span>Joined</span>
+                    </div>
+                </div>
+
                 <div class="profile-divider"></div>
 
                 <div class="about-box">

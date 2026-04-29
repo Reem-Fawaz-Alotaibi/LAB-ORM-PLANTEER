@@ -76,9 +76,14 @@ def user_profile_view(request: HttpRequest, user_name):
 
     comments = Comment.objects.filter(user=user).order_by('-created_at')
 
+    comments_count = comments.count()
+    bookmarks_count = user.bookmark_set.count()
+
     return render(request, 'accounts/profile.html', {
         "user": user,
-        "comments": comments
+        "comments": comments,
+        "comments_count": comments_count,
+        "bookmarks_count": bookmarks_count,
     })
 
 

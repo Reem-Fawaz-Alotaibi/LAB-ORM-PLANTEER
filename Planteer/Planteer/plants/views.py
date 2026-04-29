@@ -5,6 +5,7 @@ from .models import Plant,Comment,Country
 from .forms import PlantForm
 from django.contrib import messages
 from accounts.models import Bookmark
+from django.core.paginator import Paginator
 
 def all_plants_view(request):
     plants = Plant.objects.all().order_by('-created_at')
@@ -24,6 +25,10 @@ def all_plants_view(request):
 
     if country:
         plants = plants.filter(countries__id=country)
+
+    paginator = Paginator(plants, 8)
+    page_number = request.GET.get('page')
+    plants = paginator.get_page(page_number)
 
     return render(request, 'plants/all_plants.html', {
         'plants': plants,

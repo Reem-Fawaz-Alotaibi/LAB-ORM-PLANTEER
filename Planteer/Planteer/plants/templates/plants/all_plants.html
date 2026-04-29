@@ -45,5 +45,18 @@
         {% include 'plants/includes/plant_card.html' %}
         {% endfor %}
     </div>
+
+    <div class="pagination-box">
+        {% if plants.has_previous %}
+        <a href="?page={{ plants.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        <span>Page {{ plants.number }} of {{ plants.paginator.num_pages }}</span>
+
+        {% if plants.has_next %}
+        <a href="?page={{ plants.next_page_number }}">Next</a>
+        {% endif %}
+    </div>
+
 </section>
 {% endblock %}
