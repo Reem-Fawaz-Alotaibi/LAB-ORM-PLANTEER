@@ -1,4 +1,5 @@
 {% extends 'main/base.html' %}
+{% load static %}
 
 {% block title %}Home | Planteer{% endblock %}
 
@@ -6,13 +7,39 @@
 {% block content %}
 
 <section class="home-section">
+
+    <video autoplay muted loop playsinline class="bg-video">
+        <source src="{% static 'videos/header.mp4' %}" type="video/mp4">
+    </video>
+
+    <div class="video-overlay"></div>
+
     <div class="home-content">
         <h1 class="home-title">Planteer</h1>
         <h2 class="home-text">Plant Database For Plants Lovers</h2>
+
         <form action="{% url 'plants:search_plants' %}" method="GET" class="search-box">
             <input type="text" name="q" placeholder="Search For Plant..." required>
             <button type="submit">Search</button>
         </form>
+    </div>
+
+</section>
+
+<section class="container stats-section">
+    <div class="stats-card">
+        <strong>{{ plants_count }}</strong>
+        <span>Total Plants</span>
+    </div>
+
+    <div class="stats-card">
+        <strong>{{ comments_count }}</strong>
+        <span>Total Comments</span>
+    </div>
+
+    <div class="stats-card">
+        <strong>{{ countries_count }}</strong>
+        <span>Countries</span>
     </div>
 </section>
 

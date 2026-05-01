@@ -6,6 +6,10 @@ from .forms import PlantForm
 from django.contrib import messages
 from accounts.models import Bookmark
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import user_passes_test
+
+def is_staff(user):
+    return user.is_staff
 
 def all_plants_view(request):
     plants = Plant.objects.all().order_by('-created_at')
@@ -58,12 +62,8 @@ def plant_detail_view(request, plant_id):
 
     })
 
-
+@user_passes_test(is_staff)
 def new_plant_view(request):
-    if not request.user.is_staff:
-        messages.warning(request, "only staff can add game", "alert-warning")
-        return redirect("main:home")
-
     if request.method == 'POST':
         form = PlantForm(request.POST, request.FILES)
         if form.is_valid():
